@@ -1,2 +1,2 @@
 # FL--based-Smart-Internship-System
-Smart intenrhsip/job recommendation system using FL and highly secure 
+Smart intenrhsip/job recommendation system using FL.
