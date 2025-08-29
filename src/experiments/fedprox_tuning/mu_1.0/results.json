@@ -1,0 +1,936 @@
+{
+    "algorithm": "FedProx",
+    "mu": 1.0,
+    "rounds": 10,
+    "final_performance": {
+        "round": 10,
+        "training_metrics": [
+            {
+                "client_id": "and Sons",
+                "final_loss": 1.0985732417387986,
+                "num_samples": 2271
+            },
+            {
+                "client_id": "Group",
+                "final_loss": 0.9921184911186405,
+                "num_samples": 2109
+            },
+            {
+                "client_id": "Inc",
+                "final_loss": 1.0895065852889307,
+                "num_samples": 1728
+            },
+            {
+                "client_id": "LLC",
+                "final_loss": 1.0377866566181182,
+                "num_samples": 1920
+            },
+            {
+                "client_id": "Ltd",
+                "final_loss": 1.1465249787854443,
+                "num_samples": 1959
+            },
+            {
+                "client_id": "PLC",
+                "final_loss": 0.9822642720630648,
+                "num_samples": 2007
+            }
+        ],
+        "eval_metrics": [
+            {
+                "client_id": "and Sons",
+                "mse": 1.117057204246521,
+                "mae": 0.8335294127464294,
+                "r2": -0.01635599136352539,
+                "num_test_samples": 190
+            },
+            {
+                "client_id": "Group",
+                "mse": 1.016658902168274,
+                "mae": 0.8359078764915466,
+                "r2": 0.010794103145599365,
+                "num_test_samples": 176
+            },
+            {
+                "client_id": "Inc",
+                "mse": 0.8420943021774292,
+                "mae": 0.7398476004600525,
+                "r2": -0.019765734672546387,
+                "num_test_samples": 144
+            },
+            {
+                "client_id": "LLC",
+                "mse": 1.2032495737075806,
+                "mae": 0.8960739374160767,
+                "r2": -0.009317398071289062,
+                "num_test_samples": 160
+            },
+            {
+                "client_id": "Ltd",
+                "mse": 1.092132806777954,
+                "mae": 0.8559368252754211,
+                "r2": -0.04192078113555908,
+                "num_test_samples": 164
+            },
+            {
+                "client_id": "PLC",
+                "mse": 1.0162149667739868,
+                "mae": 0.7982651591300964,
+                "r2": 0.01128453016281128,
+                "num_test_samples": 168
+            }
+        ],
+        "avg_mse": 1.052682875873086,
+        "avg_mae": 0.8282259932297195,
+        "avg_r2": -0.010503126475625409,
+        "successful_clients": 6,
+        "successful_evaluations": 6
+    },
+    "all_rounds": [
+        {
+            "round": 1,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.8801210812144948,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 1.870379005692592,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.9281369249025981,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.9359778066476185,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 2.1015240456024684,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 1.860239443460625,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.21040678024292,
+                    "mae": 0.8631542921066284,
+                    "r2": -0.10129034519195557,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.0582114458084106,
+                    "mae": 0.8464912176132202,
+                    "r2": -0.029636263847351074,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.9627386927604675,
+                    "mae": 0.7959868907928467,
+                    "r2": -0.16586458683013916,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2811081409454346,
+                    "mae": 0.921380877494812,
+                    "r2": -0.07462728023529053,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.283016324043274,
+                    "mae": 0.9266414046287537,
+                    "r2": -0.22402822971343994,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.1242481470108032,
+                    "mae": 0.8560788035392761,
+                    "r2": -0.09382522106170654,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.1568089250081075,
+            "avg_mae": 0.869077097631976,
+            "avg_r2": -0.11256415187241789,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        },
+        {
+            "round": 2,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.6438529679870773,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 1.467657685788563,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.6832629828541368,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.6756917496522268,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 1.6745960847524552,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 1.4796702340876338,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.1710903644561768,
+                    "mae": 0.8504451513290405,
+                    "r2": -0.06551814079284668,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.0312614440917969,
+                    "mae": 0.8421959280967712,
+                    "r2": -0.0034140348434448242,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.9176076054573059,
+                    "mae": 0.7752091884613037,
+                    "r2": -0.11121141910552979,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2369601726531982,
+                    "mae": 0.9079887270927429,
+                    "r2": -0.03759479522705078,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.2161000967025757,
+                    "mae": 0.8994951248168945,
+                    "r2": -0.16018855571746826,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.0706263780593872,
+                    "mae": 0.8267016410827637,
+                    "r2": -0.04165446758270264,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.1111416702498933,
+            "avg_mae": 0.8514196185056797,
+            "avg_r2": -0.06821137940336368,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        },
+        {
+            "round": 3,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.447681196877107,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 1.3567081683616946,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.4013520556467551,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.4675602912902832,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 1.5264658525685013,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 1.385481267944758,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.1545534133911133,
+                    "mae": 0.8448578119277954,
+                    "r2": -0.05047202110290527,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.025492787361145,
+                    "mae": 0.8427757024765015,
+                    "r2": 0.00219881534576416,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.896317183971405,
+                    "mae": 0.765932559967041,
+                    "r2": -0.08542895317077637,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2274011373519897,
+                    "mae": 0.9059257507324219,
+                    "r2": -0.029576420783996582,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.1802747249603271,
+                    "mae": 0.8851281404495239,
+                    "r2": -0.12601041793823242,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.0519708395004272,
+                    "mae": 0.8137469291687012,
+                    "r2": -0.023503780364990234,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.0934150613948495,
+            "avg_mae": 0.8442758640605295,
+            "avg_r2": -0.050749533666584065,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        },
+        {
+            "round": 4,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.352859085926869,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 1.2866512602005258,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.3366248927734516,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.3223453720410665,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 1.3662896105803781,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 1.2391496913968834,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.1456457376480103,
+                    "mae": 0.8411678671836853,
+                    "r2": -0.04236733913421631,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.0221939086914062,
+                    "mae": 0.8411551117897034,
+                    "r2": 0.005408585071563721,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.8826642036437988,
+                    "mae": 0.7600394487380981,
+                    "r2": -0.06889545917510986,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2257153987884521,
+                    "mae": 0.905748724937439,
+                    "r2": -0.028162479400634766,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.1618666648864746,
+                    "mae": 0.8795562386512756,
+                    "r2": -0.10844862461090088,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.039206862449646,
+                    "mae": 0.8063576221466064,
+                    "r2": -0.011085271835327148,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.0837622885694522,
+            "avg_mae": 0.8402654438199635,
+            "avg_r2": -0.041090545302141686,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        },
+        {
+            "round": 5,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.27988145782894,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 1.173149745800078,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.2367151136751529,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.2799645006656646,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 1.3191866927027642,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 1.1889418938531766,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.1348671913146973,
+                    "mae": 0.83787602186203,
+                    "r2": -0.03256046772003174,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.018337607383728,
+                    "mae": 0.8395795822143555,
+                    "r2": 0.009160757064819336,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.8702260255813599,
+                    "mae": 0.7542116641998291,
+                    "r2": -0.05383288860321045,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2183253765106201,
+                    "mae": 0.9030828475952148,
+                    "r2": -0.02196347713470459,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.140756368637085,
+                    "mae": 0.8720210194587708,
+                    "r2": -0.08830893039703369,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.030390739440918,
+                    "mae": 0.8023598790168762,
+                    "r2": -0.0025076866149902344,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.073140201454391,
+            "avg_mae": 0.8361976973548859,
+            "avg_r2": -0.03068287810403668,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        },
+        {
+            "round": 6,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.2312361782524146,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 1.1790454344706491,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.1749260215847581,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.1891515135765076,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 1.271238748853215,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 1.1271473742505478,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.131346583366394,
+                    "mae": 0.8368449807167053,
+                    "r2": -0.029357314109802246,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.0154671669006348,
+                    "mae": 0.8377581238746643,
+                    "r2": 0.011953771114349365,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.8617989420890808,
+                    "mae": 0.7498921751976013,
+                    "r2": -0.04362785816192627,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2173103094100952,
+                    "mae": 0.9025761485099792,
+                    "r2": -0.02111196517944336,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.1295408010482788,
+                    "mae": 0.8683856725692749,
+                    "r2": -0.07760894298553467,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.0233047008514404,
+                    "mae": 0.799515962600708,
+                    "r2": 0.004386603832244873,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.067571507480568,
+            "avg_mae": 0.833908747651144,
+            "avg_r2": -0.0250751189367024,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        },
+        {
+            "round": 7,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.1742061302295501,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 1.0958055042723107,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.1245450675487518,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.1158685346444448,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 1.2204977782664705,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 1.082837652999724,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.126563310623169,
+                    "mae": 0.8359723687171936,
+                    "r2": -0.025005102157592773,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.0159740447998047,
+                    "mae": 0.8373498320579529,
+                    "r2": 0.011460483074188232,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.8537346720695496,
+                    "mae": 0.7455976605415344,
+                    "r2": -0.03386211395263672,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2120532989501953,
+                    "mae": 0.9001373052597046,
+                    "r2": -0.01670229434967041,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.1169708967208862,
+                    "mae": 0.8643878698348999,
+                    "r2": -0.06561696529388428,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.0192039012908936,
+                    "mae": 0.7985129356384277,
+                    "r2": 0.00837641954421997,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.062010243505299,
+            "avg_mae": 0.8318424513953888,
+            "avg_r2": -0.01959718534808435,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        },
+        {
+            "round": 8,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.1266672601000636,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 1.0564539416698893,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.0998089335582875,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.08386434117953,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 1.1880879323965678,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 1.051606932444304,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.1209800243377686,
+                    "mae": 0.8347135782241821,
+                    "r2": -0.019925236701965332,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.0167750120162964,
+                    "mae": 0.8370009064674377,
+                    "r2": 0.01068115234375,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.8491302132606506,
+                    "mae": 0.7428719401359558,
+                    "r2": -0.028286099433898926,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2043747901916504,
+                    "mae": 0.8969272375106812,
+                    "r2": -0.010261297225952148,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.104563593864441,
+                    "mae": 0.8602259755134583,
+                    "r2": -0.053780198097229004,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.0171462297439575,
+                    "mae": 0.7980262041091919,
+                    "r2": 0.010378420352935791,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.0568286625449053,
+            "avg_mae": 0.8298753683200616,
+            "avg_r2": -0.014667959984191164,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        },
+        {
+            "round": 9,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.1139001009591294,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 1.0462371559999972,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.0953314988701432,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.0647827496131261,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 1.1609730987660796,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 1.0398774368583592,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.1183687448501587,
+                    "mae": 0.8339006900787354,
+                    "r2": -0.01754927635192871,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.0162715911865234,
+                    "mae": 0.8360852599143982,
+                    "r2": 0.01117098331451416,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.8452286720275879,
+                    "mae": 0.7408912777900696,
+                    "r2": -0.023561477661132812,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2015695571899414,
+                    "mae": 0.8954000473022461,
+                    "r2": -0.007908225059509277,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.0953049659729004,
+                    "mae": 0.8567065596580505,
+                    "r2": -0.044947147369384766,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.0162580013275146,
+                    "mae": 0.7982770204544067,
+                    "r2": 0.011242568492889404,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.0535721338675645,
+            "avg_mae": 0.8284979078346146,
+            "avg_r2": -0.011486046804401451,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        },
+        {
+            "round": 10,
+            "training_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "final_loss": 1.0985732417387986,
+                    "num_samples": 2271
+                },
+                {
+                    "client_id": "Group",
+                    "final_loss": 0.9921184911186405,
+                    "num_samples": 2109
+                },
+                {
+                    "client_id": "Inc",
+                    "final_loss": 1.0895065852889307,
+                    "num_samples": 1728
+                },
+                {
+                    "client_id": "LLC",
+                    "final_loss": 1.0377866566181182,
+                    "num_samples": 1920
+                },
+                {
+                    "client_id": "Ltd",
+                    "final_loss": 1.1465249787854443,
+                    "num_samples": 1959
+                },
+                {
+                    "client_id": "PLC",
+                    "final_loss": 0.9822642720630648,
+                    "num_samples": 2007
+                }
+            ],
+            "eval_metrics": [
+                {
+                    "client_id": "and Sons",
+                    "mse": 1.117057204246521,
+                    "mae": 0.8335294127464294,
+                    "r2": -0.01635599136352539,
+                    "num_test_samples": 190
+                },
+                {
+                    "client_id": "Group",
+                    "mse": 1.016658902168274,
+                    "mae": 0.8359078764915466,
+                    "r2": 0.010794103145599365,
+                    "num_test_samples": 176
+                },
+                {
+                    "client_id": "Inc",
+                    "mse": 0.8420943021774292,
+                    "mae": 0.7398476004600525,
+                    "r2": -0.019765734672546387,
+                    "num_test_samples": 144
+                },
+                {
+                    "client_id": "LLC",
+                    "mse": 1.2032495737075806,
+                    "mae": 0.8960739374160767,
+                    "r2": -0.009317398071289062,
+                    "num_test_samples": 160
+                },
+                {
+                    "client_id": "Ltd",
+                    "mse": 1.092132806777954,
+                    "mae": 0.8559368252754211,
+                    "r2": -0.04192078113555908,
+                    "num_test_samples": 164
+                },
+                {
+                    "client_id": "PLC",
+                    "mse": 1.0162149667739868,
+                    "mae": 0.7982651591300964,
+                    "r2": 0.01128453016281128,
+                    "num_test_samples": 168
+                }
+            ],
+            "avg_mse": 1.052682875873086,
+            "avg_mae": 0.8282259932297195,
+            "avg_r2": -0.010503126475625409,
+            "successful_clients": 6,
+            "successful_evaluations": 6
+        }
+    ],
+    "improvements": {
+        "mse_improvement_pct": -3872.755999505738,
+        "mae_improvement_pct": -563.0022799543815,
+        "r2_improvement_pct": 13.274372710075017
+    }
+}

@@ -1,0 +1,101 @@
+company_id,company_name,industry,company_size,country,state
+C0001,Freeman-Johnson,"Pharmacist, hospital",Small,Sierra Leone,North Dakota
+C0002,Wolfe LLC,Fast food restaurant manager,Small,India,New Mexico
+C0003,"Carlson, Sloan and Reyes",Seismic interpreter,Medium,South Africa,Oklahoma
+C0004,Frazier-Roberts,Colour technologist,Medium,Guyana,Arizona
+C0005,"Payne, Davis and Barnett","Loss adjuster, chartered",Small,American Samoa,Hawaii
+C0006,Wilson-Hanson,"Geologist, engineering",Medium,Tuvalu,New Hampshire
+C0007,"Thornton, Bush and Perez",Dentist,Small,South Georgia and the South Sandwich Islands,New Mexico
+C0008,"Reed, Dunlap and Graham",Government social research officer,Medium,Turkey,Alabama
+C0009,"Simmons, Mendez and Roberts",Health visitor,Large,Timor-Leste,Oregon
+C0010,Love-Cruz,Clinical molecular geneticist,Small,Swaziland,Mississippi
+C0011,Giles-Benton,IT consultant,Small,Zambia,New York
+C0012,"Jackson, Robinson and Jacobs","Designer, multimedia",Small,Chile,Maryland
+C0013,Joseph-Copeland,Trading standards officer,Large,Bosnia and Herzegovina,Pennsylvania
+C0014,Tyler Ltd,Information systems manager,Medium,Lithuania,Wyoming
+C0015,Irwin LLC,Best boy,Medium,Montenegro,Florida
+C0016,"Vasquez, Waller and King",Retail manager,Medium,Bhutan,New Hampshire
+C0017,Silva LLC,"Scientist, water quality",Medium,Saudi Arabia,Oregon
+C0018,Frey LLC,Horticultural therapist,Large,Bosnia and Herzegovina,Washington
+C0019,Rodriguez and Sons,Personal assistant,Large,Tanzania,Florida
+C0020,"Anderson, Mcguire and Clark","Research officer, trade union",Medium,Netherlands,Ohio
+C0021,David-Walker,"Administrator, local government",Medium,Bolivia,South Carolina
+C0022,Williams-Marsh,"Engineer, manufacturing",Medium,Romania,Iowa
+C0023,Palmer-Holden,Garment/textile technologist,Medium,Saint Helena,Ohio
+C0024,Chavez Group,Medical laboratory scientific officer,Large,Northern Mariana Islands,Rhode Island
+C0025,Duke LLC,"Sound technician, broadcasting/film/video",Medium,Tonga,South Carolina
+C0026,"Knapp, Martin and Robertson",Industrial/product designer,Medium,Saint Martin,Ohio
+C0027,Watkins-Petersen,Professor Emeritus,Large,Guam,Washington
+C0028,Johnson Inc,Air broker,Large,Bhutan,Illinois
+C0029,Rosales Group,Charity officer,Medium,Cook Islands,South Dakota
+C0030,Vincent-George,Recycling officer,Large,Greenland,California
+C0031,Smith Inc,Learning mentor,Medium,Uzbekistan,Mississippi
+C0032,Molina and Sons,Animal nutritionist,Large,Belgium,Alabama
+C0033,"Baker, Clark and Rogers",Manufacturing engineer,Small,Tuvalu,Arizona
+C0034,Sharp Inc,Garment/textile technologist,Large,Cameroon,Arkansas
+C0035,Foster and Sons,Forensic scientist,Large,Panama,Virginia
+C0036,"Ritter, Pham and Allison","Accountant, chartered",Small,Costa Rica,Indiana
+C0037,Kelly-Miller,Warehouse manager,Small,Togo,Georgia
+C0038,"Lewis, Johnson and Miller",Quality manager,Large,Western Sahara,New Hampshire
+C0039,"Alvarez, Howard and Vasquez",Archaeologist,Large,New Caledonia,Nebraska
+C0040,Frye-Campbell,Warden/ranger,Large,Hong Kong,Mississippi
+C0041,"Hobbs, Jones and Hoffman",Biomedical scientist,Large,Svalbard & Jan Mayen Islands,Maine
+C0042,Ryan Inc,Furniture conservator/restorer,Medium,Korea,Utah
+C0043,"Castro, Johnson and Young",Applications developer,Large,Bosnia and Herzegovina,Maine
+C0044,"Riddle, Diaz and Leblanc",Petroleum engineer,Large,Lesotho,South Carolina
+C0045,Carney Ltd,Wellsite geologist,Medium,Belize,New Hampshire
+C0046,Dickson PLC,Public house manager,Small,Philippines,Michigan
+C0047,Gutierrez-Elliott,Photographer,Large,Fiji,Nebraska
+C0048,"Burns, Phillips and Moore",Police officer,Large,Tajikistan,Iowa
+C0049,Bradley-Nguyen,Equality and diversity officer,Medium,Somalia,South Dakota
+C0050,"Farrell, Mitchell and Clark",Sports administrator,Medium,Bosnia and Herzegovina,Massachusetts
+C0051,Cain LLC,Social worker,Medium,Dominican Republic,Nevada
+C0052,"Black, Navarro and Garcia","Surveyor, planning and development",Large,Eritrea,Virginia
+C0053,Vasquez LLC,Printmaker,Small,Moldova,Wyoming
+C0054,Cline-Nguyen,Production engineer,Large,Niue,Alaska
+C0055,Bentley-Baker,Investment analyst,Large,Portugal,Arkansas
+C0056,King-Roberts,Data processing manager,Large,United Kingdom,Minnesota
+C0057,Dalton-Mack,Operations geologist,Medium,Tokelau,New Jersey
+C0058,Knight LLC,Mining engineer,Small,Belize,Rhode Island
+C0059,Greer Group,"Runner, broadcasting/film/video",Medium,Antarctica (the territory South of 60 deg S),Virginia
+C0060,Cole-Huber,"Programmer, multimedia",Large,Italy,Alaska
+C0061,Mann-Miller,Research scientist (maths),Large,Gabon,California
+C0062,Jones-Williams,Conference centre manager,Large,Colombia,Mississippi
+C0063,"Edwards, Greer and Huffman","Exhibitions officer, museum/gallery",Small,South Georgia and the South Sandwich Islands,South Carolina
+C0064,"Collins, Hanson and Robles","Engineer, agricultural",Large,Bouvet Island (Bouvetoya),Louisiana
+C0065,Bradley-Miller,Research scientist (maths),Small,New Zealand,North Carolina
+C0066,Graves-Murphy,English as a foreign language teacher,Small,Solomon Islands,Idaho
+C0067,"Owens, Bradshaw and Price",Sports therapist,Small,Timor-Leste,Oklahoma
+C0068,"Sullivan, Duran and Perez",Operational researcher,Medium,Northern Mariana Islands,Arizona
+C0069,"Estrada, Davila and Booth","Surveyor, planning and development",Large,Botswana,Oklahoma
+C0070,Kim LLC,"Geologist, engineering",Small,United States of America,Colorado
+C0071,"Wilson, Lynch and Ferrell","Conservator, museum/gallery",Medium,Ecuador,Colorado
+C0072,"Phillips, Padilla and Evans",Psychotherapist,Small,Aruba,Montana
+C0073,Mccall Ltd,Contracting civil engineer,Small,Swaziland,Georgia
+C0074,Long PLC,"Nurse, mental health",Large,Sierra Leone,Alabama
+C0075,Le Group,Best boy,Medium,Eritrea,Iowa
+C0076,"Thompson, Green and Rodriguez",Immunologist,Medium,India,Florida
+C0077,Lyons-Anthony,Community education officer,Large,Bolivia,Oregon
+C0078,"Davis, Harvey and Johnson",Retail manager,Large,Moldova,Iowa
+C0079,Henry-Matthews,"Engineer, mining",Medium,Bhutan,Montana
+C0080,Gutierrez-Green,"Surveyor, commercial/residential",Large,Sao Tome and Principe,Wisconsin
+C0081,Lawrence-Velasquez,"Education officer, museum",Medium,Montenegro,Nevada
+C0082,Williams Group,Pensions consultant,Large,Falkland Islands (Malvinas),Arizona
+C0083,"Phillips, Clayton and Ferguson",Public relations officer,Medium,Sao Tome and Principe,Nebraska
+C0084,Brady LLC,Ecologist,Large,Namibia,Massachusetts
+C0085,Hall-Fleming,Occupational psychologist,Small,Malaysia,Maryland
+C0086,"Garcia, Solis and Colon",Network engineer,Small,Netherlands,Arizona
+C0087,Anderson PLC,Community education officer,Large,New Caledonia,Arkansas
+C0088,Chase Group,Catering manager,Large,Central African Republic,Minnesota
+C0089,Reyes and Sons,Environmental manager,Medium,Montenegro,North Carolina
+C0090,Torres Ltd,Media buyer,Medium,Yemen,Pennsylvania
+C0091,Larson Inc,Aeronautical engineer,Small,Wallis and Futuna,Alaska
+C0092,Harris Inc,English as a foreign language teacher,Small,Bulgaria,Rhode Island
+C0093,Smith-Oliver,Arboriculturist,Small,Kiribati,Maryland
+C0094,Luna-Webb,"Physicist, medical",Small,Malta,Indiana
+C0095,Reed-Wagner,Bookseller,Large,Uzbekistan,Oregon
+C0096,"Wright, Nguyen and Hill",Banker,Large,Christmas Island,Maryland
+C0097,"Callahan, Peterson and Montgomery",Health and safety adviser,Large,Guatemala,Utah
+C0098,Phillips-Carter,Advertising account planner,Medium,Lao People's Democratic Republic,Alaska
+C0099,Wilkins-Smith,Environmental health practitioner,Small,Andorra,Tennessee
+C0100,Phillips-Guerra,"Buyer, retail",Small,Martinique,West Virginia
