@@ -1,0 +1,13 @@
+{
+  "synonym_f1": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  },
+  "sim_auc": NaN,
+  "cluster": {
+    "purity": 0.23696682464454977,
+    "nmi": 0.8180940320752215
+  },
+  "num_phrases": 211
+}

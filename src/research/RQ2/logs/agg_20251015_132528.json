@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "version": "v2_alignment_cctr",
+      "exists": true,
+      "f1": 0.10309278350515463,
+      "precision": 0.05434782608695652,
+      "recall": 1.0,
+      "auc": 0.9348659003831418,
+      "purity": 0.9583333333333334,
+      "nmi": 0.9635410012650015,
+      "num_phrases": 24
+    },
+    {
+      "version": "v2_alignment_flctr",
+      "exists": true,
+      "f1": 0.10309278350515463,
+      "precision": 0.05434782608695652,
+      "recall": 1.0,
+      "auc": 0.8035759897828864,
+      "purity": 0.7916666666666666,
+      "nmi": 0.87109208861163,
+      "num_phrases": 24
+    }
+  ]
+}

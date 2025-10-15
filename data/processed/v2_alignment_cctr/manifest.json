@@ -1,0 +1,8 @@
+{
+  "version": "v2_alignment_cctr",
+  "notes": "\\",
+  "data_root": "data/raw",
+  "features_file": "features_aligned.csv",
+  "format": "csv",
+  "num_rows": 1500
+}

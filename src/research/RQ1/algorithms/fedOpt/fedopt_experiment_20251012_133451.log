@@ -1,0 +1,122 @@
+2025-10-12 13:34:51,974 - INFO - Starting FedOpt experiment for Smart Internship System
+2025-10-12 13:34:51,977 - INFO - FedOpt Server initialized with adam optimizer
+2025-10-12 13:34:51,977 - INFO - Found client directories: ['../../../data/processed\\university_client_and Sons', '../../../data/processed\\university_client_Group', '../../../data/processed\\university_client_Inc', '../../../data/processed\\university_client_LLC', '../../../data/processed\\university_client_Ltd', '../../../data/processed\\university_client_PLC']
+2025-10-12 13:34:51,987 - INFO - Client and Sons: Loaded 947 samples
+2025-10-12 13:34:51,991 - INFO - Client and Sons: Train samples: 757, Val samples: 190
+2025-10-12 13:34:51,991 - INFO - Successfully loaded client: and Sons
+2025-10-12 13:34:51,998 - INFO - Client Group: Loaded 879 samples
+2025-10-12 13:34:52,001 - INFO - Client Group: Train samples: 703, Val samples: 176
+2025-10-12 13:34:52,001 - INFO - Successfully loaded client: Group
+2025-10-12 13:34:52,009 - INFO - Client Inc: Loaded 720 samples
+2025-10-12 13:34:52,011 - INFO - Client Inc: Train samples: 576, Val samples: 144
+2025-10-12 13:34:52,011 - INFO - Successfully loaded client: Inc
+2025-10-12 13:34:52,020 - INFO - Client LLC: Loaded 800 samples
+2025-10-12 13:34:52,023 - INFO - Client LLC: Train samples: 640, Val samples: 160
+2025-10-12 13:34:52,023 - INFO - Successfully loaded client: LLC
+2025-10-12 13:34:52,030 - INFO - Client Ltd: Loaded 817 samples
+2025-10-12 13:34:52,034 - INFO - Client Ltd: Train samples: 653, Val samples: 164
+2025-10-12 13:34:52,034 - INFO - Successfully loaded client: Ltd
+2025-10-12 13:34:52,043 - INFO - Client PLC: Loaded 837 samples
+2025-10-12 13:34:52,045 - INFO - Client PLC: Train samples: 669, Val samples: 168
+2025-10-12 13:34:52,045 - INFO - Successfully loaded client: PLC
+2025-10-12 13:34:52,045 - INFO - Initialized 6 clients
+2025-10-12 13:34:52,045 - INFO - Starting communication round 1/10
+2025-10-12 13:34:52,994 - INFO - Client and Sons: Train Loss: 0.1616, Val R²: -211.8182
+2025-10-12 13:34:53,031 - INFO - Client Group: Train Loss: 0.1579, Val R²: -52.8341
+2025-10-12 13:34:53,062 - INFO - Client Inc: Train Loss: 0.1763, Val R²: -366.4331
+2025-10-12 13:34:53,091 - INFO - Client LLC: Train Loss: 0.1685, Val R²: -41.6605
+2025-10-12 13:34:53,128 - INFO - Client Ltd: Train Loss: 0.1680, Val R²: -157.9058
+2025-10-12 13:34:53,166 - INFO - Client PLC: Train Loss: 0.1702, Val R²: -60.1894
+2025-10-12 13:34:53,170 - INFO - Round 1 Metrics - Avg Train Loss: 0.1671, Avg Val R²: -148.4735
+2025-10-12 13:34:53,170 - INFO - Round 1: Aggregated updates from 6 clients
+2025-10-12 13:34:53,170 - INFO - Starting communication round 2/10
+2025-10-12 13:34:53,207 - INFO - Client and Sons: Train Loss: 6.0186, Val R²: -325.7541
+2025-10-12 13:34:53,256 - INFO - Client Group: Train Loss: 5.9176, Val R²: -1230.0034
+2025-10-12 13:34:53,297 - INFO - Client Inc: Train Loss: 6.1405, Val R²: -1528.7795
+2025-10-12 13:34:53,339 - INFO - Client LLC: Train Loss: 5.9714, Val R²: -1045.4045
+2025-10-12 13:34:53,386 - INFO - Client Ltd: Train Loss: 5.9852, Val R²: -983.4068
+2025-10-12 13:34:53,436 - INFO - Client PLC: Train Loss: 6.1192, Val R²: -760.0663
+2025-10-12 13:34:53,440 - INFO - Round 2 Metrics - Avg Train Loss: 6.0254, Avg Val R²: -978.9024
+2025-10-12 13:34:53,440 - INFO - Round 2: Aggregated updates from 6 clients
+2025-10-12 13:34:53,440 - INFO - Starting communication round 3/10
+2025-10-12 13:34:53,486 - INFO - Client and Sons: Train Loss: 29.1853, Val R²: -603345.1250
+2025-10-12 13:34:53,642 - INFO - Client Group: Train Loss: 29.5203, Val R²: -1051629.7500
+2025-10-12 13:34:53,712 - INFO - Client Inc: Train Loss: 28.5930, Val R²: -814869.0000
+2025-10-12 13:34:53,757 - INFO - Client LLC: Train Loss: 28.5747, Val R²: -928383.8125
+2025-10-12 13:34:53,795 - INFO - Client Ltd: Train Loss: 29.1602, Val R²: -626514.8125
+2025-10-12 13:34:53,833 - INFO - Client PLC: Train Loss: 29.0757, Val R²: -925408.5625
+2025-10-12 13:34:53,837 - INFO - Round 3 Metrics - Avg Train Loss: 29.0182, Avg Val R²: -825025.1771
+2025-10-12 13:34:53,837 - INFO - Round 3: Aggregated updates from 6 clients
+2025-10-12 13:34:53,837 - INFO - Starting communication round 4/10
+2025-10-12 13:34:53,880 - INFO - Client and Sons: Train Loss: 79.1487, Val R²: -3012875.7500
+2025-10-12 13:34:53,917 - INFO - Client Group: Train Loss: 79.5671, Val R²: -5111328.0000
+2025-10-12 13:34:53,952 - INFO - Client Inc: Train Loss: 79.1902, Val R²: -4501588.5000
+2025-10-12 13:34:53,984 - INFO - Client LLC: Train Loss: 79.4305, Val R²: -6307192.5000
+2025-10-12 13:34:54,019 - INFO - Client Ltd: Train Loss: 80.3888, Val R²: -4348711.0000
+2025-10-12 13:34:54,051 - INFO - Client PLC: Train Loss: 79.3358, Val R²: -4544022.5000
+2025-10-12 13:34:54,056 - INFO - Round 4 Metrics - Avg Train Loss: 79.5102, Avg Val R²: -4637619.7083
+2025-10-12 13:34:54,056 - INFO - Round 4: Aggregated updates from 6 clients
+2025-10-12 13:34:54,056 - INFO - Starting communication round 5/10
+2025-10-12 13:34:54,096 - INFO - Client and Sons: Train Loss: 164.8339, Val R²: -8468580.0000
+2025-10-12 13:34:54,134 - INFO - Client Group: Train Loss: 163.0102, Val R²: -13152091.0000
+2025-10-12 13:34:54,162 - INFO - Client Inc: Train Loss: 164.6387, Val R²: -9729767.0000
+2025-10-12 13:34:54,193 - INFO - Client LLC: Train Loss: 163.5952, Val R²: -8827062.0000
+2025-10-12 13:34:54,223 - INFO - Client Ltd: Train Loss: 161.9029, Val R²: -9134905.0000
+2025-10-12 13:34:54,256 - INFO - Client PLC: Train Loss: 161.9862, Val R²: -9703010.0000
+2025-10-12 13:34:54,259 - INFO - Round 5 Metrics - Avg Train Loss: 163.3279, Avg Val R²: -9835902.5000
+2025-10-12 13:34:54,260 - INFO - Round 5: Aggregated updates from 6 clients
+2025-10-12 13:34:54,260 - INFO - Round 5: Current average accuracy: -9835902.5000
+2025-10-12 13:34:54,260 - INFO - Starting communication round 6/10
+2025-10-12 13:34:54,294 - INFO - Client and Sons: Train Loss: 284.7153, Val R²: -9325734.0000
+2025-10-12 13:34:54,323 - INFO - Client Group: Train Loss: 288.3095, Val R²: -15209484.0000
+2025-10-12 13:34:54,359 - INFO - Client Inc: Train Loss: 283.9126, Val R²: -14716917.0000
+2025-10-12 13:34:54,388 - INFO - Client LLC: Train Loss: 288.2393, Val R²: -17876032.0000
+2025-10-12 13:34:54,418 - INFO - Client Ltd: Train Loss: 287.1366, Val R²: -16061814.0000
+2025-10-12 13:34:54,445 - INFO - Client PLC: Train Loss: 283.2212, Val R²: -17278684.0000
+2025-10-12 13:34:54,449 - INFO - Round 6 Metrics - Avg Train Loss: 285.9224, Avg Val R²: -15078110.8333
+2025-10-12 13:34:54,449 - INFO - Round 6: Aggregated updates from 6 clients
+2025-10-12 13:34:54,449 - INFO - Starting communication round 7/10
+2025-10-12 13:34:54,483 - INFO - Client and Sons: Train Loss: 469.8427, Val R²: -11672292.0000
+2025-10-12 13:34:54,519 - INFO - Client Group: Train Loss: 458.0696, Val R²: -16690747.0000
+2025-10-12 13:34:54,548 - INFO - Client Inc: Train Loss: 453.9812, Val R²: -19703448.0000
+2025-10-12 13:34:54,576 - INFO - Client LLC: Train Loss: 473.3637, Val R²: -10909046.0000
+2025-10-12 13:34:54,608 - INFO - Client Ltd: Train Loss: 470.3516, Val R²: -10970700.0000
+2025-10-12 13:34:54,637 - INFO - Client PLC: Train Loss: 475.4401, Val R²: -14194500.0000
+2025-10-12 13:34:54,640 - INFO - Round 7 Metrics - Avg Train Loss: 466.8415, Avg Val R²: -14023455.5000
+2025-10-12 13:34:54,641 - INFO - Round 7: Aggregated updates from 6 clients
+2025-10-12 13:34:54,641 - INFO - Starting communication round 8/10
+2025-10-12 13:34:54,674 - INFO - Client and Sons: Train Loss: 762.9037, Val R²: -8786891.0000
+2025-10-12 13:34:54,705 - INFO - Client Group: Train Loss: 763.8747, Val R²: -17991096.0000
+2025-10-12 13:34:54,736 - INFO - Client Inc: Train Loss: 771.9129, Val R²: -13782011.0000
+2025-10-12 13:34:54,774 - INFO - Client LLC: Train Loss: 768.8221, Val R²: -15581726.0000
+2025-10-12 13:34:54,808 - INFO - Client Ltd: Train Loss: 781.9128, Val R²: -21681980.0000
+2025-10-12 13:34:54,842 - INFO - Client PLC: Train Loss: 747.4297, Val R²: -11140957.0000
+2025-10-12 13:34:54,846 - INFO - Round 8 Metrics - Avg Train Loss: 766.1426, Avg Val R²: -14827443.5000
+2025-10-12 13:34:54,846 - INFO - Round 8: Aggregated updates from 6 clients
+2025-10-12 13:34:54,846 - INFO - Starting communication round 9/10
+2025-10-12 13:34:54,878 - INFO - Client and Sons: Train Loss: 1196.0159, Val R²: -44626000.0000
+2025-10-12 13:34:54,911 - INFO - Client Group: Train Loss: 1191.7165, Val R²: -69430872.0000
+2025-10-12 13:34:54,942 - INFO - Client Inc: Train Loss: 1191.3101, Val R²: -61873680.0000
+2025-10-12 13:34:54,974 - INFO - Client LLC: Train Loss: 1205.3799, Val R²: -75588104.0000
+2025-10-12 13:34:54,999 - INFO - Client Ltd: Train Loss: 1202.1266, Val R²: -62583212.0000
+2025-10-12 13:34:55,037 - INFO - Client PLC: Train Loss: 1202.4786, Val R²: -48727792.0000
+2025-10-12 13:34:55,040 - INFO - Round 9 Metrics - Avg Train Loss: 1198.1713, Avg Val R²: -60471610.0000
+2025-10-12 13:34:55,040 - INFO - Round 9: Aggregated updates from 6 clients
+2025-10-12 13:34:55,040 - INFO - Starting communication round 10/10
+2025-10-12 13:34:55,072 - INFO - Client and Sons: Train Loss: 1757.8202, Val R²: -77451200.0000
+2025-10-12 13:34:55,105 - INFO - Client Group: Train Loss: 1756.5475, Val R²: -98719312.0000
+2025-10-12 13:34:55,130 - INFO - Client Inc: Train Loss: 1755.6341, Val R²: -108621112.0000
+2025-10-12 13:34:55,158 - INFO - Client LLC: Train Loss: 1735.4185, Val R²: -114304672.0000
+2025-10-12 13:34:55,189 - INFO - Client Ltd: Train Loss: 1761.6187, Val R²: -133903672.0000
+2025-10-12 13:34:55,220 - INFO - Client PLC: Train Loss: 1740.6408, Val R²: -115733856.0000
+2025-10-12 13:34:55,223 - INFO - Round 10 Metrics - Avg Train Loss: 1751.2799, Avg Val R²: -108122304.0000
+2025-10-12 13:34:55,223 - INFO - Round 10: Aggregated updates from 6 clients
+2025-10-12 13:34:55,223 - INFO - Round 10: Current average accuracy: -108122304.0000
+2025-10-12 13:34:55,223 - INFO - FedOpt training completed in 3.18 seconds
+2025-10-12 13:34:55,225 - INFO - Results saved to ./
+2025-10-12 13:34:55,225 - INFO - Final Results - Average Accuracy: -108122304.0000, Average Loss: 1751.2799
+2025-10-12 13:34:55,225 - INFO - Data Heterogeneity Analysis:
+2025-10-12 13:34:55,225 - INFO -   - GPA variance across clients: 0.0019
+2025-10-12 13:34:55,225 - INFO -   - Performance variance: 298369670406549.3125
+2025-10-12 13:34:55,225 - INFO -   - Major diversity range: [8, 8]
+2025-10-12 13:34:55,226 - INFO -   - Industry diversity range: [89, 90]

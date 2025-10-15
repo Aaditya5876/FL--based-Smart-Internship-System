@@ -1,0 +1,190 @@
+{
+  "algorithm": "FedOpt",
+  "optimizer": "adam",
+  "server_lr": 0.1,
+  "total_rounds": 10,
+  "final_avg_accuracy": -3672551.6666666665,
+  "training_history": {
+    "rounds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "avg_train_loss": [
+      0.15680115384360155,
+      1.5535812099774677,
+      10.87402357260386,
+      54.469599660237634,
+      121.77157719930011,
+      208.2141159057617,
+      370.5021067301432,
+      622.3441589355468,
+      927.0656860351563,
+      1356.1603637695314
+    ],
+    "avg_val_accuracy": [
+      -21.233929336071014,
+      -5902.40966796875,
+      -15148.004720052084,
+      -1027930.8958333334,
+      -665964.0416666666,
+      -512759.5494791667,
+      -326296.1666666667,
+      -4062006.375,
+      -3467014.4166666665,
+      -3672551.6666666665
+    ],
+    "client_participation": [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ],
+    "heterogeneity_metrics": [
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 531.0586843054367
+      },
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 9450241.193649372
+      },
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 19933704.95765286
+      },
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 51587040669.15973
+      },
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 80207350581.26259
+      },
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 256875839425.14026
+      },
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 22632283595.618626
+      },
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 3488228447927.432
+      },
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 597590013471.3264
+      },
+      {
+        "gpa_variance_across_clients": 0.0019263133711832272,
+        "gender_entropy_variance": 3.2422234538852846e-05,
+        "major_diversity_range": [
+          8,
+          8
+        ],
+        "industry_diversity_range": [
+          89,
+          90
+        ],
+        "performance_variance": 678005069097.389
+      }
+    ]
+  },
+  "experiment_timestamp": "2025-10-12T13:37:24.258756"
+}

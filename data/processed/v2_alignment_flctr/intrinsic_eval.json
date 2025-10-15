@@ -1,0 +1,16 @@
+{
+  "synonym_f1": {
+    "precision": 0.5333333333333333,
+    "recall": 0.5333333333333333,
+    "f1": 0.5333333333333333
+  },
+  "sim_auc": 0.8035759897828864,
+  "cluster": {
+    "purity": 0.7916666666666666,
+    "nmi": 0.87109208861163
+  },
+  "num_phrases": 24,
+  "top_pairs_used": 15,
+  "gold_pairs": 15,
+  "unique_labels": 11
+}
