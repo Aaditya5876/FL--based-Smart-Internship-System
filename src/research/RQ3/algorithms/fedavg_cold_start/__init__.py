@@ -1,2 +1,0 @@
-# fedavg cold start package
-

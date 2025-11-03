@@ -1,2 +1,0 @@
-# centralized cold start package
-

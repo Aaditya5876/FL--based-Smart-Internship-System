@@ -1,7 +1,0 @@
-flowchart TD
-    A[data/raw/*.csv] --> B[Ontology Bootstrap / Curated Aliases]
-    B --> C[alias_map.json<br/>canonical_vocab.json]
-    A --> D[Feature Encoding<br/>GPA, majors, skills overlap]
-    C --> E[Normalizer<br/>IDs per phrase]
-    E --> F[Embeddings via Encoder]
-    F --> G[data/processed/v2_alignment_*/features_aligned.*]

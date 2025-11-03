@@ -1,0 +1,326 @@
+[
+  {
+    "client_id": "client_U1",
+    "org_type": "U",
+    "n_rows": 1147,
+    "label_rate_hint": 0.015462893820226913,
+    "date_start": "2025-01-01",
+    "date_end": "2025-03-31",
+    "skill_families_focus": [
+      "Data",
+      "ML",
+      "Web",
+      "Finance",
+      "Marketing",
+      "Management"
+    ]
+  },
+  {
+    "client_id": "client_U2",
+    "org_type": "U",
+    "n_rows": 693,
+    "label_rate_hint": 0.025422617684260282,
+    "date_start": "2025-01-01",
+    "date_end": "2025-03-31",
+    "skill_families_focus": [
+      "Data",
+      "ML",
+      "Web",
+      "Finance",
+      "Marketing",
+      "Management"
+    ]
+  },
+  {
+    "client_id": "client_U3",
+    "org_type": "U",
+    "n_rows": 444,
+    "label_rate_hint": 0.010000000003887982,
+    "date_start": "2025-01-01",
+    "date_end": "2025-03-31",
+    "skill_families_focus": [
+      "Data",
+      "ML",
+      "Web",
+      "Finance",
+      "Marketing",
+      "Management"
+    ]
+  },
+  {
+    "client_id": "client_U4",
+    "org_type": "U",
+    "n_rows": 1050,
+    "label_rate_hint": 0.014622783256312086,
+    "date_start": "2025-01-01",
+    "date_end": "2025-03-31",
+    "skill_families_focus": [
+      "Data",
+      "ML",
+      "Web",
+      "Finance",
+      "Marketing",
+      "Management"
+    ]
+  },
+  {
+    "client_id": "client_U5",
+    "org_type": "U",
+    "n_rows": 867,
+    "label_rate_hint": 0.010000000084374893,
+    "date_start": "2025-01-01",
+    "date_end": "2025-03-31",
+    "skill_families_focus": [
+      "Data",
+      "ML",
+      "Web",
+      "Finance",
+      "Marketing",
+      "Management"
+    ]
+  },
+  {
+    "client_id": "client_U6",
+    "org_type": "U",
+    "n_rows": 930,
+    "label_rate_hint": 0.010003480437879263,
+    "date_start": "2025-01-01",
+    "date_end": "2025-03-31",
+    "skill_families_focus": [
+      "Data",
+      "ML",
+      "Web",
+      "Finance",
+      "Marketing",
+      "Management"
+    ]
+  },
+  {
+    "client_id": "client_U7",
+    "org_type": "U",
+    "n_rows": 387,
+    "label_rate_hint": 0.010867378715982727,
+    "date_start": "2025-01-01",
+    "date_end": "2025-03-31",
+    "skill_families_focus": [
+      "Data",
+      "ML",
+      "Web",
+      "Finance",
+      "Marketing",
+      "Management"
+    ]
+  },
+  {
+    "client_id": "client_U8",
+    "org_type": "U",
+    "n_rows": 581,
+    "label_rate_hint": 0.010020814008658771,
+    "date_start": "2025-01-01",
+    "date_end": "2025-03-31",
+    "skill_families_focus": [
+      "Data",
+      "ML",
+      "Web",
+      "Finance",
+      "Marketing",
+      "Management"
+    ]
+  },
+  {
+    "client_id": "client_C1",
+    "org_type": "C",
+    "n_rows": 2106,
+    "label_rate_hint": 0.010194957206944742,
+    "date_start": "2025-04-01",
+    "date_end": "2025-07-31",
+    "skill_families_focus": [
+      "Cloud",
+      "DevOps",
+      "Security",
+      "Management",
+      "Finance",
+      "Marketing",
+      "HR"
+    ]
+  },
+  {
+    "client_id": "client_C2",
+    "org_type": "C",
+    "n_rows": 2215,
+    "label_rate_hint": 0.020681399756846592,
+    "date_start": "2025-04-01",
+    "date_end": "2025-07-31",
+    "skill_families_focus": [
+      "Cloud",
+      "DevOps",
+      "Security",
+      "Management",
+      "Finance",
+      "Marketing",
+      "HR"
+    ]
+  },
+  {
+    "client_id": "client_C3",
+    "org_type": "C",
+    "n_rows": 1540,
+    "label_rate_hint": 0.014440731396194582,
+    "date_start": "2025-04-01",
+    "date_end": "2025-07-31",
+    "skill_families_focus": [
+      "Cloud",
+      "DevOps",
+      "Security",
+      "Management",
+      "Finance",
+      "Marketing",
+      "HR"
+    ]
+  },
+  {
+    "client_id": "client_C4",
+    "org_type": "C",
+    "n_rows": 2168,
+    "label_rate_hint": 0.09870766103863815,
+    "date_start": "2025-04-01",
+    "date_end": "2025-07-31",
+    "skill_families_focus": [
+      "Cloud",
+      "DevOps",
+      "Security",
+      "Management",
+      "Finance",
+      "Marketing",
+      "HR"
+    ]
+  },
+  {
+    "client_id": "client_C5",
+    "org_type": "C",
+    "n_rows": 2231,
+    "label_rate_hint": 0.015783569640958388,
+    "date_start": "2025-04-01",
+    "date_end": "2025-07-31",
+    "skill_families_focus": [
+      "Cloud",
+      "DevOps",
+      "Security",
+      "Management",
+      "Finance",
+      "Marketing",
+      "HR"
+    ]
+  },
+  {
+    "client_id": "client_C6",
+    "org_type": "C",
+    "n_rows": 1459,
+    "label_rate_hint": 0.010034740273290854,
+    "date_start": "2025-04-01",
+    "date_end": "2025-07-31",
+    "skill_families_focus": [
+      "Cloud",
+      "DevOps",
+      "Security",
+      "Management",
+      "Finance",
+      "Marketing",
+      "HR"
+    ]
+  },
+  {
+    "client_id": "client_C7",
+    "org_type": "C",
+    "n_rows": 2327,
+    "label_rate_hint": 0.01000000054153093,
+    "date_start": "2025-04-01",
+    "date_end": "2025-07-31",
+    "skill_families_focus": [
+      "Cloud",
+      "DevOps",
+      "Security",
+      "Management",
+      "Finance",
+      "Marketing",
+      "HR"
+    ]
+  },
+  {
+    "client_id": "client_C8",
+    "org_type": "C",
+    "n_rows": 1290,
+    "label_rate_hint": 0.013719082199652838,
+    "date_start": "2025-04-01",
+    "date_end": "2025-07-31",
+    "skill_families_focus": [
+      "Cloud",
+      "DevOps",
+      "Security",
+      "Management",
+      "Finance",
+      "Marketing",
+      "HR"
+    ]
+  },
+  {
+    "client_id": "client_P1",
+    "org_type": "P",
+    "n_rows": 667,
+    "label_rate_hint": 0.010000955231390891,
+    "date_start": "2025-08-01",
+    "date_end": "2025-10-31",
+    "skill_families_focus": [
+      "Web",
+      "Mobile",
+      "Design",
+      "Marketing",
+      "Finance"
+    ]
+  },
+  {
+    "client_id": "client_P2",
+    "org_type": "P",
+    "n_rows": 978,
+    "label_rate_hint": 0.010036908973832923,
+    "date_start": "2025-08-01",
+    "date_end": "2025-10-31",
+    "skill_families_focus": [
+      "Web",
+      "Mobile",
+      "Design",
+      "Marketing",
+      "Finance"
+    ]
+  },
+  {
+    "client_id": "client_P3",
+    "org_type": "P",
+    "n_rows": 946,
+    "label_rate_hint": 0.010000000097066688,
+    "date_start": "2025-08-01",
+    "date_end": "2025-10-31",
+    "skill_families_focus": [
+      "Web",
+      "Mobile",
+      "Design",
+      "Marketing",
+      "Finance"
+    ]
+  },
+  {
+    "client_id": "client_P4",
+    "org_type": "P",
+    "n_rows": 597,
+    "label_rate_hint": 0.01000002563206951,
+    "date_start": "2025-08-01",
+    "date_end": "2025-10-31",
+    "skill_families_focus": [
+      "Web",
+      "Mobile",
+      "Design",
+      "Marketing",
+      "Finance"
+    ]
+  }
+]

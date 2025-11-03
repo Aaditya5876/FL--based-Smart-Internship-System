@@ -1,2 +1,0 @@
-# fedprox cold start package
-

@@ -14,6 +14,7 @@ from datetime import datetime
 from typing import Dict, List, Tuple, Optional
 import copy
 import time
+from pathlib import Path
 
 # Configure logging
 os.makedirs('./', exist_ok=True)
@@ -471,7 +472,8 @@ def run_fedopt_experiment():
     
     # Initialize clients (automatically discover client directories)
     clients = []
-    processed_dir = '../../../data/processed'
+    REPO_ROOT = Path(__file__).resolve().parents[5]
+    processed_dir = str(REPO_ROOT / 'data' / 'processed')
     
     # Auto-discover client directories
     client_data_dirs = []

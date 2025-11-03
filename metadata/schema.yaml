@@ -1,0 +1,31 @@
+common:
+  client_id: string
+  org_type: '{U,C,P}'
+  posted_date: YYYY-MM-DD
+  match_score: float[0,1]
+  recommended: '{0,1}'
+student:
+  major: oneof(CS,IT,SE,EE,Math,Business,Design,Management,Finance,Marketing,HR,Economics,Other)
+  gpa: float[1.5,4.0]
+  courses: comma-separated list
+  projects_count: int[0,8]
+  internships_count: int[0,5]
+  student_location: oneof(Remote,Hybrid,Onsite-A,Onsite-B,Onsite-C)
+  student_skills: comma-separated list (org-type aliases)
+job:
+  title: oneof(Software Engineering,Data Engineering,Data Science,ML Engineering,Cloud/Infra,DevOps/SRE,Security,Mobile,Frontend,Backend,Full-Stack,Design/UI-UX,Business
+    Analyst,Product Manager,Marketing Specialist,Digital Marketing,Finance Analyst,Investment
+    Analyst,HR Manager,Talent Acquisition,Operations Manager,Sales/BD,Strategy/Consulting)
+  role_family: string
+  required_skills: comma-separated list (org-type aliases)
+  nice_to_have: comma-separated list (org-type aliases)
+  salary_band: oneof(20-30k,30-50k,50-80k,80-120k,120k+)
+  job_location: oneof(Remote,Hybrid,Onsite-A,Onsite-B,Onsite-C)
+  company_size: oneof(1-10,11-50,51-200,201-1000,1000+)
+platform:
+  impressions: int[1,50]
+  clicks: int[0,50]
+  saves: int[0,10]
+  apply: '{0,1}'
+  dwell_time: seconds[5,180]
+  revisit_count: int[0,6]

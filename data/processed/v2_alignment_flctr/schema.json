@@ -1,6 +1,0 @@
-{
-  "entity_type": "{'student'|'job'}",
-  "entity_id": "string",
-  "canonical_ids": "list[string]",
-  "embedding": "list[float[64]]"
-}

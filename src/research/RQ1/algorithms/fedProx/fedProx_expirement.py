@@ -12,6 +12,7 @@ import pandas as pd
 import os
 import warnings
 warnings.filterwarnings('ignore')
+from pathlib import Path
 
 # -------------------------
 # DataPreprocessor
@@ -510,7 +511,8 @@ def load_your_actual_data():
     Load data from your processed folder structure with enhanced preprocessing
     """
     # Base path to your data - adjust as needed
-    base_path = "../../../data/processed"
+    REPO_ROOT = Path(__file__).resolve().parents[5]
+    base_path = str(REPO_ROOT / "data" / "processed")
 
     # Client folder mapping (adjust names/patterns to your folders)
     client_folders = {
