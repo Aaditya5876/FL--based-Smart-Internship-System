@@ -1,777 +1,291 @@
+# src/research/RQ1/algorithms/fedprox/run.py
+from __future__ import annotations
+import os, json
+from pathlib import Path
+from typing import Dict, List, Tuple
+
+import numpy as np
+import pandas as pd
+from scipy import sparse
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import numpy as np
 from torch.utils.data import DataLoader, TensorDataset
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from sklearn.preprocessing import StandardScaler, LabelEncoder, RobustScaler
-import json
-from copy import deepcopy
-import pandas as pd
-import os
-import warnings
-warnings.filterwarnings('ignore')
-from pathlib import Path
 
-# -------------------------
-# DataPreprocessor
-# -------------------------
-class DataPreprocessor:
-    """Data preprocessor to handle mixed data types and ensure consistency"""
-
-    def __init__(self):
-        self.feature_columns = None
-        self.target_column = None
-        self.label_encoders = {}
-        self.scalers = {}
-        self.global_feature_dim = 9  # Target dimension
-
-    def preprocess_dataframe(self, df, is_first_client=False):
-        """Preprocess dataframe to handle mixed data types"""
-        df_processed = df.copy()
-
-        # Identify numeric and non-numeric columns
-        numeric_columns = df_processed.select_dtypes(include=[np.number]).columns.tolist()
-        non_numeric_columns = df_processed.select_dtypes(exclude=[np.number]).columns.tolist()
-
-        print(f"    📊 Found {len(numeric_columns)} numeric and {len(non_numeric_columns)} non-numeric columns")
-
-        # Handle non-numeric columns
-        for col in non_numeric_columns:
-            if col not in self.label_encoders:
-                self.label_encoders[col] = LabelEncoder()
-                # Fit only on non-null string values
-                non_null_values = df_processed[col].dropna().astype(str)
-                if len(non_null_values) > 0:
-                    try:
-                        self.label_encoders[col].fit(non_null_values)
-                    except Exception:
-                        # fallback: fit on str-casted unique values
-                        self.label_encoders[col].fit(non_null_values.astype(str).unique())
-
-            # Transform column
-            try:
-                non_null_mask = df_processed[col].notna()
-                if non_null_mask.any():
-                    df_processed.loc[non_null_mask, col] = self.label_encoders[col].transform(
-                        df_processed.loc[non_null_mask, col].astype(str)
-                    )
-                # Fill NaN with 0
-                df_processed[col] = df_processed[col].fillna(0)
-                df_processed[col] = pd.to_numeric(df_processed[col], errors='coerce').fillna(0)
-            except Exception as e:
-                print(f"      ⚠️ Warning: Could not encode column '{col}': {e}")
-                # Fill with zeros if encoding fails
-                df_processed[col] = 0
-
-        # Handle numeric columns - fill NaN with median
-        for col in numeric_columns:
-            if df_processed[col].isna().any():
-                median_val = df_processed[col].median()
-                df_processed[col] = df_processed[col].fillna(median_val if not pd.isna(median_val) else 0)
-
-        # Convert all columns to numeric
-        for col in df_processed.columns:
-            df_processed[col] = pd.to_numeric(df_processed[col], errors='coerce').fillna(0)
-
-        return df_processed
-
-    def extract_features_and_target(self, df_processed):
-        """Extract features and target from processed dataframe"""
-        # Use last column as target, rest as features
-        if len(df_processed.columns) > 1:
-            features = df_processed.iloc[:, :-1].values
-            targets = df_processed.iloc[:, -1].values
-        else:
-            # If only one column, use it as target and create dummy features
-            features = np.random.randn(len(df_processed), self.global_feature_dim)
-            targets = df_processed.iloc[:, 0].values
-            print(f"      ⚠️ Only 1 column found, using as target with dummy features")
-
-        # Ensure features have consistent dimensions
-        if features.shape[1] < self.global_feature_dim:
-            # Pad with zeros
-            padding = np.zeros((features.shape[0], self.global_feature_dim - features.shape[1]))
-            features = np.hstack([features, padding])
-            print(f"      📝 Padded features from {features.shape[1]} to {self.global_feature_dim} dimensions")
-        elif features.shape[1] > self.global_feature_dim:
-            # Truncate
-            features = features[:, :self.global_feature_dim]
-            print(f"      ✂️ Truncated features from {features.shape[1]} to {self.global_feature_dim} dimensions")
-
-        # CRITICAL: Scale the data to prevent NaN losses
-        feature_scaler = RobustScaler()
-        target_scaler = RobustScaler()
-
-        # Scale features
-        features = feature_scaler.fit_transform(features)
-        print(f"      🔧 Scaled features - Range: [{features.min():.3f}, {features.max():.3f}]")
-
-        # Scale targets and clamp extreme values
-        targets_reshaped = targets.reshape(-1, 1)
-        targets_scaled = target_scaler.fit_transform(targets_reshaped).flatten()
-
-        # Clamp targets to reasonable range to prevent exploding gradients
-        targets_scaled = np.clip(targets_scaled, -10, 10)
-        print(f"      🔧 Scaled targets - Range: [{targets_scaled.min():.3f}, {targets_scaled.max():.3f}]")
-
-        # Store scalers for potential inverse transform
-        if not hasattr(self, 'feature_scaler'):
-            self.feature_scaler = feature_scaler
-            self.target_scaler = target_scaler
-
-        return features.astype(np.float32), targets_scaled.astype(np.float32)
-
-# -------------------------
-# Client
-# -------------------------
-class FedProxClient:
-    def __init__(self, client_id, model, data, targets, mu=0.1):
-        """
-        FedProx Client with proximal term
-        """
-        self.client_id = client_id
-        self.model = model
-        self.data = data
-        self.targets = targets
-        self.mu = mu  # Proximal parameter
-
-        # Split data into train/test
-        X_train, X_test, y_train, y_test = train_test_split(
-            data, targets, test_size=0.2, random_state=42
-        )
-
-        self.train_loader = DataLoader(
-            TensorDataset(torch.FloatTensor(X_train), torch.FloatTensor(y_train)),
-            batch_size=32, shuffle=True
-        )
-
-        self.test_loader = DataLoader(
-            TensorDataset(torch.FloatTensor(X_test), torch.FloatTensor(y_test)),
-            batch_size=32, shuffle=False
-        )
-
-    def local_train(self, global_model, epochs=5, lr=0.001):
-        """
-        FedProx local training with proximal term and gradient clipping
-        """
-        self.model.train()
-        optimizer = optim.Adam(self.model.parameters(), lr=lr, weight_decay=1e-5)
-        criterion = nn.MSELoss()
-
-        total_loss = 0
-        num_samples = 0
-
-        # Store global model parameters for proximal term
-        global_params = {}
-        for name, param in global_model.named_parameters():
-            global_params[name] = param.clone().detach()
-
-        for epoch in range(epochs):
-            epoch_loss = 0
-            epoch_samples = 0
-
-            for batch_data, batch_targets in self.train_loader:
-                # Check for NaN in input data
-                if torch.isnan(batch_data).any() or torch.isnan(batch_targets).any():
-                    print(f"⚠️ Warning: NaN detected in batch for client {self.client_id}")
-                    continue
-
-                optimizer.zero_grad()
-
-                # Forward pass
-                outputs = self.model(batch_data)
-
-                # Check for NaN in outputs
-                if torch.isnan(outputs).any():
-                    print(f"⚠️ Warning: NaN in model outputs for client {self.client_id}")
-                    continue
-
-                # Original loss
-                original_loss = criterion(outputs.squeeze(), batch_targets)
-
-                # Check for NaN in loss
-                if torch.isnan(original_loss):
-                    print(f"⚠️ Warning: NaN in loss for client {self.client_id}")
-                    continue
-
-                # FedProx proximal term: μ/2 * ||w - w_global||²
-                proximal_loss = 0.0
-                for name, param in self.model.named_parameters():
-                    if name in global_params:
-                        # safe: convert to float scalar from norm
-                        proximal_loss += torch.norm(param - global_params[name]) ** 2
-                proximal_loss = (self.mu / 2) * proximal_loss
-
-                # Total FedProx loss
-                total_fedprox_loss = original_loss + proximal_loss
-
-                # Check final loss for NaN
-                if torch.isnan(total_fedprox_loss):
-                    print(f"⚠️ Warning: NaN in total loss for client {self.client_id}")
-                    continue
-
-                # Backward pass
-                total_fedprox_loss.backward()
-
-                # Gradient clipping to prevent exploding gradients
-                torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
-
-                optimizer.step()
-
-                epoch_loss += total_fedprox_loss.item() * len(batch_data)
-                epoch_samples += len(batch_data)
-
-            total_loss += epoch_loss
-            num_samples += epoch_samples
-
-        avg_loss = total_loss / num_samples if num_samples > 0 else float('nan')
-
-        # Final check for NaN loss
-        if np.isnan(avg_loss):
-            print(f"❌ Training failed for client {self.client_id}: NaN loss detected")
-
-        return avg_loss, num_samples
-
-    def evaluate(self):
-        """Evaluate model on test data (per-client)"""
-        self.model.eval()
-        predictions = []
-        actuals = []
-
-        with torch.no_grad():
-            for batch_data, batch_targets in self.test_loader:
-                outputs = self.model(batch_data)
-                predictions.extend(outputs.squeeze().cpu().numpy())
-                actuals.extend(batch_targets.cpu().numpy())
-
-        predictions = np.array(predictions)
-        actuals = np.array(actuals)
-
-        # If test split was empty, return NaNs
-        if len(actuals) == 0:
-            return {
-                'client_id': self.client_id,
-                'mse': float('nan'),
-                'mae': float('nan'),
-                'r2': float('nan'),
-                'num_test_samples': 0
-            }
-
-        mse = mean_squared_error(actuals, predictions)
-        mae = mean_absolute_error(actuals, predictions)
-        r2 = r2_score(actuals, predictions)
-
-        return {
-            'client_id': self.client_id,
-            'mse': mse,
-            'mae': mae,
-            'r2': r2,
-            'num_test_samples': len(actuals)
-        }
-
-# -------------------------
-# Server
-# -------------------------
-class FedProxServer:
-    def __init__(self, model_template, clients, mu=0.1):
-        """
-        FedProx Server for aggregation
-        """
-        self.global_model = deepcopy(model_template)
-        self.clients = clients
-        self.mu = mu
-
-        # Set mu for all clients
-        for client in self.clients:
-            client.mu = self.mu
-
-    def aggregate_models(self, client_models, client_weights):
-        """
-        FedProx aggregation with improved error handling (weighted average)
-        """
-        if not client_models:
-            print("⚠️ Warning: No client models to aggregate")
-            return
-
-        # Initialize aggregated parameters
-        aggregated_params = {}
-
-        # Get parameter names from first model
-        first_model_params = list(client_models[0].named_parameters())
-
-        # Initialize aggregated parameters with zeros
-        for name, param in first_model_params:
-            aggregated_params[name] = torch.zeros_like(param.data)
-
-        # Weighted aggregation with safety checks
-        total_weight = float(sum(client_weights)) if sum(client_weights) > 0 else 1.0
-
-        for i, (model, weight) in enumerate(zip(client_models, client_weights)):
-            for name, param in model.named_parameters():
-                if name in aggregated_params:
-                    # Check tensor shapes match
-                    if param.data.shape == aggregated_params[name].shape:
-                        aggregated_params[name] += (weight / total_weight) * param.data
-                    else:
-                        print(f"⚠️ Warning: Shape mismatch for parameter '{name}' in client {i}")
-                        print(f"    Expected: {aggregated_params[name].shape}, Got: {param.data.shape}")
-
-        # Update global model with safety checks
-        global_state_dict = self.global_model.state_dict()
-        for name, param in aggregated_params.items():
-            if name in global_state_dict:
-                if param.shape == global_state_dict[name].shape:
-                    global_state_dict[name].copy_(param)
-                else:
-                    print(f"⚠️ Warning: Cannot update global parameter '{name}' due to shape mismatch")
-
-    def train_round(self, round_num, local_epochs=3, lr=0.001):
-        """Execute one round of FedProx training"""
-        print(f"=== FedProx Round {round_num} (μ={self.mu}) ===")
-
-        # Distribute global model to clients
-        client_models = []
-        client_weights = []
-        training_metrics = []
-        successful_clients = 0
-
-        for client in self.clients:
-            try:
-                # Copy global model to client
-                client.model.load_state_dict(self.global_model.state_dict())
-
-                # Local training with proximal term
-                loss, num_samples = client.local_train(
-                    self.global_model, epochs=local_epochs, lr=lr
-                )
-
-                # Skip clients with NaN losses
-                if np.isnan(loss):
-                    print(f"⚠️ Skipping client {client.client_id} due to NaN loss")
-                    continue
-
-                # Collect trained model and metrics
-                client_models.append(deepcopy(client.model))
-                client_weights.append(num_samples)
-                successful_clients += 1
-
-                training_metrics.append({
-                    'client_id': client.client_id,
-                    'final_loss': loss,
-                    'num_samples': num_samples
-                })
-
-                print(f"Client {client.client_id}: Loss={loss:.6f}, Samples={num_samples}")
-
-            except Exception as e:
-                print(f"❌ Error training client {client.client_id}: {e}")
-                continue
-
-        if not client_models:
-            print("❌ No successful client training in this round!")
-            return None
-
-        print(f"✅ Successfully trained {successful_clients}/{len(self.clients)} clients")
-
-        # Server aggregation
-        try:
-            self.aggregate_models(client_models, client_weights)
-        except Exception as e:
-            print(f"❌ Error in model aggregation: {e}")
-            return None
-
-        # Evaluation — compute global metrics by concatenating predictions & targets across clients
-        all_preds = []
-        all_targets = []
-        eval_metrics = []
-        successful_evaluations = 0
-
-        for client in self.clients:
-            try:
-                # Update client model with aggregated global model
-                client.model.load_state_dict(self.global_model.state_dict())
-
-                # Get per-client evaluation (for logging) and also collect raw preds/targets
-                client_pred = []
-                client_tgt = []
-
-                client.model.eval()
-                with torch.no_grad():
-                    for batch_data, batch_targets in client.test_loader:
-                        outputs = client.model(batch_data)
-                        client_pred.extend(outputs.squeeze().cpu().numpy())
-                        client_tgt.extend(batch_targets.cpu().numpy())
-
-                client_pred = np.array(client_pred)
-                client_tgt = np.array(client_tgt)
-
-                # If client had no test samples, skip adding but still include in eval_metrics as empty
-                if client_tgt.size == 0:
-                    eval_metrics.append({
-                        'client_id': client.client_id,
-                        'mse': float('nan'),
-                        'mae': float('nan'),
-                        'r2': float('nan'),
-                        'num_test_samples': 0
-                    })
-                    continue
-
-                mse_c = mean_squared_error(client_tgt, client_pred)
-                mae_c = mean_absolute_error(client_tgt, client_pred)
-                r2_c = r2_score(client_tgt, client_pred)
-
-                eval_metrics.append({
-                    'client_id': client.client_id,
-                    'mse': mse_c,
-                    'mae': mae_c,
-                    'r2': r2_c,
-                    'num_test_samples': len(client_tgt)
-                })
-
-                # Append to global lists
-                all_preds.extend(client_pred.tolist())
-                all_targets.extend(client_tgt.tolist())
-                successful_evaluations += 1
-
-                print(f"Client {client.client_id}: MSE={mse_c:.6f}, MAE={mae_c:.6f}, R²={r2_c:.6f}")
-
-            except Exception as e:
-                print(f"❌ Error evaluating client {client.client_id}: {e}")
-                continue
-
-        # Calculate global metrics
-        if len(all_targets) > 0:
-            all_preds = np.array(all_preds)
-            all_targets = np.array(all_targets)
-            avg_mse = mean_squared_error(all_targets, all_preds)
-            avg_mae = mean_absolute_error(all_targets, all_preds)
-            avg_r2 = r2_score(all_targets, all_preds)
-        else:
-            avg_mse = avg_mae = avg_r2 = float('nan')
-            print("⚠️ Warning: No successful evaluations in this round")
-
-        print(f"Round {round_num} Global: MSE={avg_mse:.6f}, MAE={avg_mae:.6f}, R²={avg_r2:.6f}")
-        print(f"Successful clients: {successful_clients}/{len(self.clients)}, Evaluations: {successful_evaluations}")
-        print("-" * 60)
-
-        return {
-            'round': round_num,
-            'training_metrics': training_metrics,
-            'eval_metrics': eval_metrics,
-            'avg_mse': avg_mse if not np.isnan(avg_mse) else 0.0,
-            'avg_mae': avg_mae if not np.isnan(avg_mae) else 0.0,
-            'avg_r2': avg_r2 if not np.isnan(avg_r2) else 0.0,
-            'successful_clients': successful_clients,
-            'successful_evaluations': successful_evaluations
-        }
-
-# -------------------------
-# Model
-# -------------------------
-class JobRecommendationModel(nn.Module):
-    def __init__(self, input_dim=9, hidden_dim=32):
-        super(JobRecommendationModel, self).__init__()
-        self.fc1 = nn.Linear(input_dim, hidden_dim)
-        self.fc2 = nn.Linear(hidden_dim, hidden_dim // 2)
-        self.fc3 = nn.Linear(hidden_dim // 2, 1)
-        self.relu = nn.ReLU()
-        self.dropout = nn.Dropout(0.3)
-        self.batch_norm1 = nn.BatchNorm1d(hidden_dim)
-        self.batch_norm2 = nn.BatchNorm1d(hidden_dim // 2)
-        self._initialize_weights()
-
-    def _initialize_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Linear):
-                torch.nn.init.xavier_uniform_(m.weight)
-                if m.bias is not None:
-                    torch.nn.init.constant_(m.bias, 0)
-
-    def forward(self, x):
-        x = self.fc1(x)
-        x = self.batch_norm1(x) if x.size(0) > 1 else x
-        x = self.relu(x)
-        x = self.dropout(x)
-
-        x = self.fc2(x)
-        x = self.batch_norm2(x) if x.size(0) > 1 else x
-        x = self.relu(x)
-        x = self.dropout(x)
-
-        x = self.fc3(x)
-        return x
-
-# -------------------------
-# Data loading function (must be defined before main)
-# -------------------------
-def load_your_actual_data():
-    """
-    Load data from your processed folder structure with enhanced preprocessing
-    """
-    # Base path to your data - adjust as needed
-    REPO_ROOT = Path(__file__).resolve().parents[5]
-    base_path = str(REPO_ROOT / "data" / "processed")
-
-    # Client folder mapping (adjust names/patterns to your folders)
-    client_folders = {
-        'and Sons': 'university_client_and Sons',
-        'Group': 'university_client_Group',
-        'Inc': 'university_client_Inc',
-        'LLC': 'university_client_LLC',
-        'Ltd': 'university_client_Ltd',
-        'PLC': 'university_client_PLC'
-    }
-
-    client_data = {}
-    preprocessor = DataPreprocessor()
-
-    print("🔄 Loading client data from processed folders...")
-
-    for client_name, folder_name in client_folders.items():
-        folder_path = os.path.join(base_path, folder_name)
-
-        if not os.path.exists(folder_path):
-            print(f"❌ Folder not found: {folder_path}")
-            continue
-
-        # Look for CSV files in the client folder
-        try:
-            csv_files = [f for f in os.listdir(folder_path) if f.endswith('.csv')]
-        except Exception as e:
-            print(f"❌ Error accessing folder {folder_path}: {e}")
-            continue
-
-        if not csv_files:
-            print(f"❌ No CSV files found in {folder_path}")
-            continue
-
-        # Load the first CSV file (assuming one file per client)
-        csv_file = csv_files[0]
-        file_path = os.path.join(folder_path, csv_file)
-
-        try:
-            # Load data
-            df = pd.read_csv(file_path)
-            print(f"✅ Loaded {client_name}: {df.shape[0]} samples, {df.shape[1]} columns")
-
-            # Preprocess the dataframe
-            print(f"    🔄 Preprocessing {client_name}...")
-            df_processed = preprocessor.preprocess_dataframe(df)
-
-            # Extract features and targets
-            features, targets = preprocessor.extract_features_and_target(df_processed)
-
-            # Validate data
-            if len(features) == 0 or len(targets) == 0:
-                print(f"❌ Error: Empty data after preprocessing for {client_name}")
-                continue
-
-            # Check for any remaining invalid values
-            if np.any(np.isnan(features)) or np.any(np.isnan(targets)):
-                print(f"    🧹 Cleaning remaining NaN values in {client_name}")
-                features = np.nan_to_num(features, nan=0.0)
-                targets = np.nan_to_num(targets, nan=0.0)
-
-            client_data[client_name] = {
-                'features': features,
-                'targets': targets
-            }
-
-            print(f"    📊 Final shape - Features: {features.shape}, Targets: {targets.shape}")
-            print(f"    ✅ Successfully processed {client_name}")
-
-        except Exception as e:
-            print(f"❌ Error loading {client_name}: {e}")
-            print(f"    Attempting to load with different encoding...")
-
-            # Try with different encoding
-            try:
-                df = pd.read_csv(file_path, encoding='latin1')
-                print(f"    ✅ Loaded {client_name} with latin1 encoding: {df.shape[0]} samples, {df.shape[1]} columns")
-
-                # Preprocess
-                df_processed = preprocessor.preprocess_dataframe(df)
-                features, targets = preprocessor.extract_features_and_target(df_processed)
-
-                if np.any(np.isnan(features)) or np.any(np.isnan(targets)):
-                    features = np.nan_to_num(features, nan=0.0)
-                    targets = np.nan_to_num(targets, nan=0.0)
-
-                client_data[client_name] = {
-                    'features': features,
-                    'targets': targets
-                }
-
-                print(f"    📊 Final shape - Features: {features.shape}, Targets: {targets.shape}")
-                print(f"    ✅ Successfully processed {client_name}")
-
-            except Exception as e2:
-                print(f"❌ Failed to load {client_name} with any encoding: {e2}")
-                continue
-
-    if not client_data:
-        print("❌ No data loaded! Using synthetic data for testing...")
-        # Fallback to synthetic data if loading fails
-        client_data = {
-            'and Sons': {
-                'features': np.random.randn(947, 9).astype(np.float32),
-                'targets': np.random.randn(947).astype(np.float32)
-            },
-            'Group': {
-                'features': np.random.randn(879, 9).astype(np.float32),
-                'targets': np.random.randn(879).astype(np.float32)
-            },
-            'Inc': {
-                'features': np.random.randn(720, 9).astype(np.float32),
-                'targets': np.random.randn(720).astype(np.float32)
-            },
-            'LLC': {
-                'features': np.random.randn(800, 9).astype(np.float32),
-                'targets': np.random.randn(800).astype(np.float32)
-            },
-            'Ltd': {
-                'features': np.random.randn(817, 9).astype(np.float32),
-                'targets': np.random.randn(817).astype(np.float32)
-            },
-            'PLC': {
-                'features': np.random.randn(837, 9).astype(np.float32),
-                'targets': np.random.randn(837).astype(np.float32)
-            }
-        }
-
-    print(f"🎯 Successfully loaded data for {len(client_data)} clients")
-    return client_data
-
-# -------------------------
-# Runner
-# -------------------------
-def run_fedprox_experiment(client_data, num_rounds=10, mu=0.1, experiment_name="fedprox_experiment"):
-    """
-    Run complete FedProx experiment with improved error handling
-    """
-    print(f"🚀 Starting FedProx Experiment with μ={mu}")
-    print(f"Clients: {len(client_data)}, Rounds: {num_rounds}")
-    print("=" * 70)
-
-    if not client_data:
-        print("❌ No client data available!")
-        return None, None
-
-    # Create model template
-    model_template = JobRecommendationModel(input_dim=9)
-
-    # Create FedProx clients
-    clients = []
-    for client_id, data in client_data.items():
-        try:
-            client_model = JobRecommendationModel(input_dim=9)
-            client = FedProxClient(
-                client_id=client_id,
-                model=client_model,
-                data=data['features'],
-                targets=data['targets'],
-                mu=mu
-            )
-            clients.append(client)
-            print(f"✅ Created FedProx client: {client_id} ({len(data['features'])} samples)")
-        except Exception as e:
-            print(f"❌ Error creating client {client_id}: {e}")
-            continue
-
-    if not clients:
-        print("❌ No clients created successfully!")
-        return None, None
-
-    # Create FedProx server
-    server = FedProxServer(model_template, clients, mu=mu)
-
-    # Training loop
-    results = []
-
-    for round_num in range(1, num_rounds + 1):
-        round_result = server.train_round(round_num)
-        if round_result is not None:
-            results.append(round_result)
-        else:
-            print(f"⚠️ Skipping round {round_num} due to errors")
-
-    if not results:
-        print("❌ No successful training rounds!")
-        return None, None
-
-    # Final results
-    final_result = results[-1]
-
-    print("\n" + "=" * 70)
-    print("🎯 FEDPROX FINAL RESULTS")
-    print("=" * 70)
-    print(f"Proximal Parameter (μ): {mu}")
-    print(f"Final Average MSE: {final_result['avg_mse']:.6f}")
-    print(f"Final Average MAE: {final_result['avg_mae']:.6f}")
-    print(f"Final Average R²: {final_result['avg_r2']:.6f}")
-    print("=" * 70)
-
-    # Comparison with FedAvg baseline
-    fedavg_mse = 0.026497546690611083  # Your baseline result
-    fedavg_mae = 0.12492053470565838
-    fedavg_r2 = -0.01211075296176678
-
-    epsilon = 1e-8
-    mse_improvement = ((fedavg_mse - final_result['avg_mse']) / (fedavg_mse + epsilon)) * 100
-    mae_improvement = ((fedavg_mae - final_result['avg_mae']) / (fedavg_mae + epsilon)) * 100
-    r2_improvement = ((final_result['avg_r2'] - fedavg_r2) / (abs(fedavg_r2) + epsilon)) * 100
-
-    print("📊 COMPARISON WITH FEDAVG BASELINE:")
-    print(f"MSE Improvement: {mse_improvement:.2f}% {'✅ Better' if mse_improvement > 0 else '❌ Worse'}")
-    print(f"MAE Improvement: {mae_improvement:.2f}% {'✅ Better' if mae_improvement > 0 else '❌ Worse'}")
-    print(f"R² Improvement: {r2_improvement:.2f}% {'✅ Better' if r2_improvement > 0 else '❌ Worse'}")
-
-    # Save final model
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import average_precision_score, roc_auc_score, f1_score
+from sklearn.base import BaseEstimator, TransformerMixin
+
+from src.loaders.federated_dataset import load_federated_clients, summarize_clients
+
+# ------------------- Constants -------------------
+SEED = 42
+np.random.seed(SEED)
+torch.manual_seed(SEED)
+
+NUMERIC_COLS = [
+    "gpa","projects_count","internships_count",
+    "impressions","clicks","saves","apply","dwell_time","revisit_count",
+]
+CATEGORICAL_SINGLE = [
+    "major","student_location","title","role_family",
+    "salary_band","job_location","company_size","org_type",
+]
+MULTI_LABEL_COLS = ["courses","student_skills","required_skills","nice_to_have"]
+TARGET = "recommended"
+
+# ------------------- MultiHotEncoder -------------------
+class MultiHotEncoder(BaseEstimator, TransformerMixin):
+    def __init__(self, sep=","):
+        self.sep = sep
+        self.vocabs_ = {}
+        self.offset_ = {}
+        self.total_dim_ = 0
+
+    def fit(self, X, y=None):
+        start = 0
+        for col in X.columns:
+            vals = X[col].fillna("").astype(str)
+            toks = set()
+            for s in vals:
+                toks.update(t.strip() for t in s.split(self.sep) if t.strip())
+            vocab = sorted(toks)
+            self.vocabs_[col] = vocab
+            self.offset_[col] = start
+            start += len(vocab)
+        self.total_dim_ = start
+        return self
+
+    def transform(self, X):
+        n = len(X)
+        if n == 0 or self.total_dim_ == 0:
+            return sparse.csr_matrix((n, 0), dtype=np.float32)
+        data, ri, ci = [], [], []
+        for i, (_, row) in enumerate(X.iterrows()):
+            for col in X.columns:
+                s = "" if pd.isna(row[col]) else str(row[col])
+                if not s: continue
+                vocab = self.vocabs_.get(col, [])
+                base = self.offset_.get(col, 0)
+                for tok in (t.strip() for t in s.split(self.sep) if t.strip()):
+                    if tok in vocab:
+                        j = vocab.index(tok)
+                        data.append(1)
+                        ri.append(i)
+                        ci.append(base + j)
+        return sparse.csr_matrix((data,(ri,ci)), shape=(n,self.total_dim_), dtype=np.float32)
+
+# ------------------- Model -------------------
+class MLP(nn.Module):
+    def __init__(self, input_dim: int, hidden=[256,128,64], p_drop=0.1):
+        super().__init__()
+        layers = []
+        d = input_dim
+        for h in hidden:
+            layers += [nn.Linear(d, h), nn.ReLU(), nn.Dropout(p_drop)]
+            d = h
+        layers.append(nn.Linear(d, 1))  # binary logit
+        self.net = nn.Sequential(*layers)
+
+    def forward(self, x): return self.net(x)
+
+# ------------------- Data utils -------------------
+def csr_to_loader(X_csr, y_np, bs, shuffle):
+    X = torch.tensor(X_csr.toarray(), dtype=torch.float32) if sparse.issparse(X_csr) else torch.tensor(X_csr, dtype=torch.float32)
+    y = torch.tensor(y_np.reshape(-1,1), dtype=torch.float32)
+    ds = TensorDataset(X, y)
+    return DataLoader(ds, batch_size=bs, shuffle=shuffle)
+
+def build_shared_preprocessor(all_clients: Dict[str, Dict[str, pd.DataFrame]]) -> ColumnTransformer:
+    feats = NUMERIC_COLS + CATEGORICAL_SINGLE + MULTI_LABEL_COLS
+    frames = []
+    for cid in sorted(all_clients.keys()):
+        df = all_clients[cid]["train"].copy()
+        for col in feats:
+            if col not in df.columns: df[col] = np.nan
+        frames.append(df[feats])
+    union_train = pd.concat(frames, ignore_index=True)
     try:
-        torch.save(server.global_model.state_dict(), f"{experiment_name}_global_model.pth")
-        print(f"✅ Global model saved to {experiment_name}_global_model.pth")
-    except Exception as e:
-        print(f"⚠️ Could not save global model: {e}")
+        ohe = OneHotEncoder(handle_unknown="ignore", sparse_output=True)
+    except TypeError:
+        ohe = OneHotEncoder(handle_unknown="ignore", sparse=True)
+    preproc = ColumnTransformer([
+        ("num","passthrough",NUMERIC_COLS),
+        ("cat",ohe,CATEGORICAL_SINGLE),
+        ("mlb",MultiHotEncoder(),MULTI_LABEL_COLS),
+    ], sparse_threshold=1.0)
+    preproc.fit(union_train)
+    return preproc
 
-    # Create comprehensive results dictionary
-    results_dict = {
-        'algorithm': 'FedProx',
-        'mu': mu,
-        'rounds': num_rounds,
-        'final_performance': final_result,
-        'all_rounds': results,
-        'improvements': {
-            'mse_improvement_pct': mse_improvement,
-            'mae_improvement_pct': mae_improvement,
-            'r2_improvement_pct': r2_improvement
+# ------------------- FedProx Client -------------------
+class FedProxClient:
+    def __init__(self, client_id, preproc, config):
+        self.client_id = client_id
+        self.preproc = preproc
+        self.mu = config.get("mu", 0.1)
+        self.bs = config.get("batch_size", 256)
+        self.local_epochs = config.get("local_epochs", 1)
+        self.lr = config.get("local_lr", 1e-3)
+
+        df_tr = ALL_CLIENTS[client_id]["train"].copy()
+        df_te = ALL_CLIENTS[client_id]["test"].copy()
+        feats = NUMERIC_COLS + CATEGORICAL_SINGLE + MULTI_LABEL_COLS
+        for col in feats:
+            for d in (df_tr, df_te):
+                if col not in d.columns: d[col] = np.nan
+
+        self.X_tr = preproc.transform(df_tr[feats])
+        self.y_tr = df_tr[TARGET].astype(int).values
+        self.X_te = preproc.transform(df_te[feats])
+        self.y_te = df_te[TARGET].astype(int).values
+
+        self.input_dim = self.X_tr.shape[1]
+        self.model = MLP(self.input_dim)
+
+    @property
+    def n_train(self): return self.X_tr.shape[0]
+
+    def set_weights(self, state): self.model.load_state_dict(state, strict=True)
+    def get_weights(self): return {k:v.data.clone() for k,v in self.model.state_dict().items()}
+
+    def train_one_round(self, global_state):
+        self.model.train()
+        loss_fn = nn.BCEWithLogitsLoss()
+        opt = optim.Adam(self.model.parameters(), lr=self.lr)
+        loader = csr_to_loader(self.X_tr, self.y_tr, self.bs, shuffle=True)
+
+        global_params = {k: v.clone().detach() for k,v in global_state.items()}
+        for _ in range(self.local_epochs):
+            total = 0
+            for xb, yb in loader:
+                opt.zero_grad()
+                logits = self.model(xb)
+                loss = loss_fn(logits, yb)
+                prox = 0.0
+                for name, param in self.model.named_parameters():
+                    prox += torch.norm(param - global_params[name])**2
+                loss = loss + (self.mu / 2.0) * prox
+                loss.backward()
+                opt.step()
+                total += loss.item()
+        return {"loss": total / max(1,len(loader))}
+
+    def compute_delta(self, global_state):
+        local = self.get_weights()
+        delta = {}
+        for k in global_state.keys():
+            delta[k] = local[k] - global_state[k]
+        return delta
+
+    def evaluate_test(self):
+        self.model.eval()
+        with torch.no_grad():
+            loader = csr_to_loader(self.X_te, self.y_te, self.bs, shuffle=False)
+            probs, ys = [], []
+            for xb,yb in loader:
+                p = torch.sigmoid(self.model(xb)).cpu().numpy().ravel()
+                probs.append(p); ys.append(yb.cpu().numpy().ravel())
+        y_prob = np.concatenate(probs) if probs else np.array([])
+        y_true = np.concatenate(ys) if ys else np.array([])
+        if len(y_true)==0 or y_true.sum()==0:
+            return {"client_id": self.client_id, "pr_auc": 0.0, "roc_auc": 0.5, "macro_f1": 0.0}
+        pr  = float(average_precision_score(y_true, y_prob))
+        roc = float(roc_auc_score(y_true, y_prob))
+        y_pred = (y_prob>=0.5).astype(int)
+        f1  = float(f1_score(y_true, y_pred, average="macro"))
+        return {"client_id": self.client_id, "pr_auc": pr, "roc_auc": roc, "macro_f1": f1}
+
+# ------------------- FedProx Server -------------------
+class FedProxServer:
+    def __init__(self, clients):
+        self.clients = clients
+        self.global_model = MLP(clients[0].input_dim)
+        self.history: List[Dict] = []
+
+    def round(self, rnd: int, fraction: float):
+        print(f"\n=== FedProx Round {rnd} ===")
+        m = max(1, int(round(len(self.clients)*fraction)))
+        idx = np.random.choice(len(self.clients), size=m, replace=False)
+        selected = [self.clients[i] for i in idx]
+        g_state = self.global_model.state_dict()
+
+        weighted_deltas, logs, total_n = [], [], 0
+        for c in selected:
+            c.set_weights(g_state)
+            train_log = c.train_one_round(g_state)
+            delta = c.compute_delta(g_state)
+            n = c.n_train
+            weighted_deltas.append((delta, n))
+            logs.append({"client_id": c.client_id, "loss": train_log["loss"], "n": n})
+            total_n += n
+
+        agg = {k: torch.zeros_like(v) for k,v in g_state.items()}
+        for delta, n in weighted_deltas:
+            w = n / total_n
+            for k in agg.keys():
+                agg[k] += w * delta[k]
+
+        new_state = {k: g_state[k] + agg[k] for k in g_state.keys()}
+        self.global_model.load_state_dict(new_state, strict=True)
+
+        evals = []
+        for c in self.clients:
+            c.set_weights(self.global_model.state_dict())
+            evals.append(c.evaluate_test())
+
+        avg_pr = float(np.mean([e["pr_auc"] for e in evals]))
+        avg_roc = float(np.mean([e["roc_auc"] for e in evals]))
+        avg_f1 = float(np.mean([e["macro_f1"] for e in evals]))
+        pr_by = {e["client_id"]: e["pr_auc"] for e in evals}
+        gap = max(pr_by.values()) - min(pr_by.values())
+        worst_id, worst_pr = min(pr_by.items(), key=lambda kv: kv[1])
+
+        out = {
+            "round": rnd,
+            "avg_pr_auc": avg_pr,
+            "avg_roc_auc": avg_roc,
+            "avg_macro_f1": avg_f1,
+            "worst_client": {"client_id": worst_id, "pr_auc": worst_pr},
+            "gap": gap,
+            "train_logs": logs,
+            "eval_metrics": evals,
         }
-    }
+        self.history.append(out)
+        print(f"[FedProx r{rnd:03d}] PR-AUC(avg)={avg_pr:.4f} | ROC-AUC(avg)={avg_roc:.4f} "
+              f"| Macro-F1(avg)={avg_f1:.4f} | Gap={gap:.4f} | Worst={worst_id}:{worst_pr:.4f}")
+        return out
 
-    return results_dict, final_result['avg_mse']
+# ------------------- Runner -------------------
+def main(rounds=200, fraction=0.5, mu=0.1, out_dir: Path|None=None):
+    global ALL_CLIENTS
+    ALL_CLIENTS = load_federated_clients()
+    summarize_clients(ALL_CLIENTS)
+    preproc = build_shared_preprocessor(ALL_CLIENTS)
 
-# -------------------------
-# MAIN
-# -------------------------
+    cfg = {"batch_size":256, "local_epochs":1, "local_lr":1e-3, "mu":mu}
+    cids = sorted(ALL_CLIENTS.keys())
+    clients = [FedProxClient(cid, preproc, cfg) for cid in cids]
+
+    server = FedProxServer(clients)
+    for r in range(1, rounds+1):
+        server.round(r, fraction=fraction)
+
+    final = server.history[-1]
+    if out_dir is None:
+        out_dir = Path("experiments") / "rq1_alpha_0.1" / f"fedprox_p{fraction}" / f"seed{SEED}"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    with open(out_dir / "results.json", "w", encoding="utf-8") as f:
+        json.dump(final, f, indent=2)
+
+    print("\nFinal summary:")
+    print(json.dumps({
+        "avg_pr_auc": final["avg_pr_auc"],
+        "avg_roc_auc": final["avg_roc_auc"],
+        "avg_macro_f1": final["avg_macro_f1"],
+        "worst_client": final["worst_client"],
+        "gap": final["gap"],
+    }, indent=2))
+
 if __name__ == "__main__":
-    # Load client data
-    client_data = load_your_actual_data()
-
-    if client_data:
-        print("🚀 Starting FedProx Experiment...")
-        results, final_mse = run_fedprox_experiment(client_data, num_rounds=10, mu=0.1)
-
-        if results:
-            # Save results to JSON
-            try:
-                with open('fedprox_results.json', 'w') as f:
-                    json.dump(results, f, indent=2, default=str)
-                print("✅ Results saved to 'fedprox_results.json'")
-            except Exception as e:
-                print(f"⚠️ Could not save results to file: {e}")
-        else:
-            print("❌ Experiment failed!")
-    else:
-        print("❌ No data available to run experiment!")
-
+    main(rounds=200, fraction=0.5, mu=0.1)
