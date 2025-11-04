@@ -3,7 +3,8 @@
 Aaditya Raj Joshi
 
 Department of Computing, Islington College (Affiliated with London Metropolitan University)
-Abstract
+
+**Abstract**
 
 This study explores a Personalized Federated Learning (PFL) framework for developing a Smart Internship Recommendation System 
 that preserves data privacy across universities while improving fairness and accuracy. Four Federated Learning algorithms—FedAvg, 
